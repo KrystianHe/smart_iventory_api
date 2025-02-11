@@ -25,4 +25,6 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    private String qrCodePath;
 }
