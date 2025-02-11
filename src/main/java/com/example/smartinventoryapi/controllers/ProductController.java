@@ -16,26 +16,4 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final ProductRepository productRepository;
-
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    @GetMapping("/{id}/qr")
-    public ResponseEntity<Resource> getQRCodeForProduct(@PathVariable Long id) {
-        return productRepository.findById(id)
-                .map(product -> {
-                    try {
-                        Path filePath = Paths.get(product.getQrCodePath());
-                        Resource file = new UrlResource(filePath.toUri());
-                        return ResponseEntity.ok()
-                                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
-                                .body(file);
-                    } catch (Exception e) {
-                        return ResponseEntity.notFound().build();
-                    }
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
 }
